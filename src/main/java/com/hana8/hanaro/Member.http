@@ -1,0 +1,49 @@
+@baseUrl=http://localhost:8080/api/members
+
+### member list
+GET {{baseUrl}}/
+
+### member search - active true
+GET {{baseUrl}}/search?isActive=true
+
+### member search - active false
+GET {{baseUrl}}/search?isActive=false
+
+### member search - nickname
+GET {{baseUrl}}/search?nickname=test
+
+### member search - email
+GET {{baseUrl}}/search?email=hana
+
+### member search - nickname + active
+GET {{baseUrl}}/search?nickname=test&isActive=true
+
+### member-regist
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "nickname": "guest",
+  "email": "guest@email.com",
+  "password": "xxxxxxxx",
+  "isActive": true,
+  "roles": ["ROLE_USER"]
+}
+
+### member-info
+GET {{baseUrl}}/1
+
+### member-update
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "email": "guest_new@email.com",
+  "password": "newpassword",
+  "nickname": "guestxx",
+  "isActive": false,
+  "roles": ["ROLE_USER"]
+}
+
+### withdraw member
+DELETE {{baseUrl}}/1
