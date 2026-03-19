@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class SubscriptionController {
 
     @GetMapping({"", "/"})
     @Operation(summary = "가입 내역 조회", description = "사용자의 상품 가입 내역을 조회합니다. 검색 조건을 지원합니다.")
-    public ResponseEntity<ApiResponse<List<SubscriptionResponse>>> getSubscriptions(SubscriptionSearchRequest dto) {
+    public ResponseEntity<ApiResponse<List<SubscriptionResponse>>> getSubscriptions(@ParameterObject SubscriptionSearchRequest dto) {
         List<SubscriptionResponse> response = service.getSubscriptions(dto);
         return ResponseEntity.ok(ApiResponse.success(response, "Subscriptions retrieved successfully"));
     }

@@ -1,23 +1,17 @@
 package com.hana8.hanaro.dto.auth;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
+
+import java.util.Set;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUpRequestDTO {
-
-    @Email
-    @NotBlank
-    @Size(max = 100)
     private String email;
-
-    @NotBlank
-    @Size(min = 8, max = 255)
     private String password;
-
-    @NotBlank
-    @Size(max = 15)
     private String nickname;
+    private Set<String> roles;
+    private String tid;
 }

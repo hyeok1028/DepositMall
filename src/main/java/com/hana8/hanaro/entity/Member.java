@@ -1,6 +1,7 @@
 package com.hana8.hanaro.entity;
 
 import com.hana8.hanaro.common.enums.MemberRole;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ import java.util.Set;
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     @Column(nullable = false, length = 100)

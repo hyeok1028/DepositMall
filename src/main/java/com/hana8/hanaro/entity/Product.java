@@ -2,6 +2,7 @@ package com.hana8.hanaro.entity;
 
 import com.hana8.hanaro.common.enums.PaymentCycle;
 import com.hana8.hanaro.common.enums.ProductType;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class Product extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     @Column(nullable = false)

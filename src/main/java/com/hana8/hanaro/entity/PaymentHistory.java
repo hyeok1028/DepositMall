@@ -1,6 +1,7 @@
 package com.hana8.hanaro.entity;
 
 import com.hana8.hanaro.common.enums.PaymentStatus;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 public class PaymentHistory extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     private LocalDate scheduledDate;

@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+app:
+  admin:
+    email: admin@test.com
+    password: password
+    nickname: admin
+
+jwt:
+  secret-key: 'test_secret_key_should_be_long_enough_for_hs256_at_least_32_chars'
+  access-token-expiration-ms: 3600000
+  refresh-token-expiration-ms: 86400000

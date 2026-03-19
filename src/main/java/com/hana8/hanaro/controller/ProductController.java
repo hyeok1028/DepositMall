@@ -7,6 +7,7 @@ import com.hana8.hanaro.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/search")
     @Operation(summary = "상품 검색", description = "상품명, 타입 등을 기준으로 상품을 검색합니다.")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> searchProducts(ProductSearchRequest dto) {
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> searchProducts(@ParameterObject ProductSearchRequest dto) {
         List<ProductResponse> response = service.searchProducts(dto);
         return ResponseEntity.ok(ApiResponse.success(response, "Product search result retrieved"));
     }

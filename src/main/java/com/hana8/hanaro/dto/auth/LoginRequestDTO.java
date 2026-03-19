@@ -1,16 +1,12 @@
 package com.hana8.hanaro.dto.auth;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequestDTO {
-
-    @Email
-    @NotBlank
     private String email;
-
-    @NotBlank
     private String password;
 }

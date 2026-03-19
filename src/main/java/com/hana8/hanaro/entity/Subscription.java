@@ -1,6 +1,7 @@
 package com.hana8.hanaro.entity;
 
 import com.hana8.hanaro.common.enums.SubscriptionStatus;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class Subscription extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

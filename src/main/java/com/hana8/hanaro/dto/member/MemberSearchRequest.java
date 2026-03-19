@@ -1,9 +1,12 @@
 package com.hana8.hanaro.dto.member;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "회원 검색 요청")
 public class MemberSearchRequest {
     @Schema(description = "닉네임 (부분 일치)", example = "하나")

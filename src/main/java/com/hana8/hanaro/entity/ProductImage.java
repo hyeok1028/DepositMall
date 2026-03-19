@@ -1,5 +1,6 @@
 package com.hana8.hanaro.entity;
 
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import lombok.*;
 public class ProductImage extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     @Column(nullable = false)

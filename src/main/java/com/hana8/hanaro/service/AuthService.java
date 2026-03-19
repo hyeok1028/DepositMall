@@ -54,8 +54,12 @@ public class AuthService {
 
         Member savedMember = memberRepository.save(member);
 
+        if (dto.getTid() == null || dto.getTid().isBlank()) {
+            throw new ApiException(ErrorCode.VALIDATION_ERROR, HttpStatus.BAD_REQUEST, "TID is required");
+        }
+
         String accountNumber = accountNumberGeneratorService.generate(null);
-        Account account = Account.open(savedMember, accountNumber, AccountType.FREE_DEPOSIT, 0L);
+        Account account = Account.open(savedMember, accountNumber, AccountType.FREE_DEPOSIT, 0L, dto.getTid());
         accountRepository.save(account);
 
         userLogger.info("회원가입 성공 - memberId={}, email={}, nickname={}", savedMember.getId(), savedMember.getEmail(), savedMember.getNickname());
@@ -79,7 +83,7 @@ public class AuthService {
             throw new ApiException(ErrorCode.FORBIDDEN, HttpStatus.FORBIDDEN, "inactive member");
         }
 
-        String token = jwtTokenProvider.createAccessToken(member.getEmail(), member.getRoles());
+        String token = jwtTokenProvider.createAccessToken(member.getId(), member.getEmail(), member.getRoles());
 
         userLogger.info("로그인 성공 - memberId={}, email={}", member.getId(), member.getEmail());
         return LoginResponseDTO.builder()

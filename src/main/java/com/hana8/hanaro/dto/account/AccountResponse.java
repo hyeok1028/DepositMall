@@ -21,6 +21,7 @@ public class AccountResponse {
     private AccountType accountType;
     private Long balance;
     private AccountStatus status;
+    private String tid;
     private LocalDateTime openedAt;
     private LocalDateTime closedAt;
     private Long memberId;

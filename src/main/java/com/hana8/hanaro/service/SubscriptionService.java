@@ -63,7 +63,7 @@ public class SubscriptionService {
                 ? AccountType.SAVINGS
                 : AccountType.TERM_DEPOSIT;
 
-        Account subscriptionAccount = Account.open(member, accountNumber, accountType, 0L);
+        Account subscriptionAccount = Account.open(member, accountNumber, accountType, 0L, null);
         accountRepository.save(subscriptionAccount);
 
         // 2. 가입 정보 구성 (최초 납입 전 상태)

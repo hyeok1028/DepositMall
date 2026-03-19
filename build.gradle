@@ -37,9 +37,9 @@ dependencies {
 
     // QueryDSL
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
     // Swagger & Actuator
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
@@ -52,6 +52,9 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+    // TSID / Hibernate Utils
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-71:3.15.2'
+
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
@@ -60,29 +63,56 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+    testRuntimeOnly 'com.h2database:h2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy tasks.named('jacocoTestReport')
+}
+
+jacoco {
+    toolVersion = '0.8.12'
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn tasks.named('test')
+
     reports {
         xml.required = true
         html.required = true
+        csv.required = false
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect { dir ->
+            fileTree(dir: dir, exclude: [
+                    '**/dto/**',
+                    '**/config/**',
+                    '**/exception/**',
+                    '**/common/**',
+                    '**/generated/**',
+                    '**/Q*',
+                    '**/*Application*'
+            ])
+        }))
     }
 }
 
 jacocoTestCoverageVerification {
+    dependsOn tasks.named('jacocoTestReport')
+
     violationRules {
         rule {
+            enabled = true
+
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
                 minimum = 0.90
             }
+
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
@@ -90,6 +120,22 @@ jacocoTestCoverageVerification {
             }
         }
     }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect { dir ->
+            fileTree(dir: dir, exclude: [
+                    '**/dto/**',
+                    '**/config/**',
+                    '**/exception/**',
+                    '**/common/**',
+                    '**/generated/**',
+                    '**/Q*',
+                    '**/*Application*'
+            ])
+        }))
+    }
 }
 
-check.dependsOn jacocoTestCoverageVerification
+tasks.named('check') {
+    dependsOn tasks.named('jacocoTestCoverageVerification')
+}

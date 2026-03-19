@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AdminMemberController {
 
     @GetMapping("/search")
     @Operation(summary = "회원 검색", description = "이메일, 닉네임, 활성 상태 등을 기준으로 회원을 검색합니다.")
-    public ResponseEntity<ApiResponse<List<MemberResponse>>> searchMembers(MemberSearchRequest searchDTO) {
+    public ResponseEntity<ApiResponse<List<MemberResponse>>> searchMembers(@ParameterObject MemberSearchRequest searchDTO) {
         List<MemberResponse> response = service.searchMembers(searchDTO);
         return ResponseEntity.ok(ApiResponse.success(response, "Member search results retrieved"));
     }

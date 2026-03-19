@@ -1,10 +1,10 @@
 package com.hana8.hanaro.security.service;
 
+import com.hana8.hanaro.security.CustomUserDetails;
 import com.hana8.hanaro.entity.Member;
 import com.hana8.hanaro.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +23,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("member not found"));
 
-        return new User(
+        return new CustomUserDetails(
+                member.getId(),
                 member.getEmail(),
                 member.getPassword(),
                 member.getRoles().stream()

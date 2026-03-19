@@ -48,7 +48,8 @@ public class AccountService {
                 member,
                 accountNumber,
                 dto.getAccountType() != null ? dto.getAccountType() : AccountType.FREE_DEPOSIT,
-                dto.getBalance() != null ? dto.getBalance() : 0L
+                dto.getBalance() != null ? dto.getBalance() : 0L,
+                null // tid
         );
 
         return mapper.toResponse(repository.save(account));

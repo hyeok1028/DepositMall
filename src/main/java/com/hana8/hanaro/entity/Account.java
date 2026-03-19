@@ -2,6 +2,7 @@ package com.hana8.hanaro.entity;
 
 import com.hana8.hanaro.common.enums.AccountStatus;
 import com.hana8.hanaro.common.enums.AccountType;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 public class Account extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Tsid
     private Long id;
 
     @Column(nullable = false, length = 11)
@@ -37,9 +38,11 @@ public class Account extends BaseEntity {
 
     private LocalDateTime closedAt;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private AccountStatus status;
+
+    @Column(length = 100)
+    private String tid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -61,12 +64,13 @@ public class Account extends BaseEntity {
         this.balance -= amount;
     }
 
-    public static Account open(Member member, String accountNumber, AccountType accountType, Long balance) {
+    public static Account open(Member member, String accountNumber, AccountType accountType, Long balance, String tid) {
         return Account.builder()
                 .member(member)
                 .accountNumber(accountNumber)
                 .accountType(accountType)
                 .balance(balance)
+                .tid(tid)
                 .openedAt(LocalDateTime.now())
                 .status(AccountStatus.ACTIVE)
                 .build();
