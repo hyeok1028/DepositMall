@@ -26,7 +26,7 @@ public class Account extends BaseEntity {
     private String accountNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private AccountType accountType;
 
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class Account extends BaseEntity {
     private LocalDateTime closedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private AccountStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,6 +48,17 @@ public class Account extends BaseEntity {
     public void close(LocalDateTime closedAt) {
         this.status = AccountStatus.CLOSED;
         this.closedAt = closedAt;
+    }
+
+    public void deposit(Long amount) {
+        if (amount == null || amount < 0) throw new IllegalArgumentException("invalid amount");
+        this.balance += amount;
+    }
+
+    public void withdraw(Long amount) {
+        if (amount == null || amount < 0) throw new IllegalArgumentException("invalid amount");
+        if (this.balance < amount) throw new IllegalArgumentException("insufficient balance");
+        this.balance -= amount;
     }
 
     public static Account open(Member member, String accountNumber, AccountType accountType, Long balance) {

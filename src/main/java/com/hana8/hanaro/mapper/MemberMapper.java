@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    @Mapping(target = "password", ignore = true)
     MemberResponse toResponse(Member member);
 
     @Mapping(target = "accounts", ignore = true)

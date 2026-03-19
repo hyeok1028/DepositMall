@@ -24,13 +24,14 @@ public class Product extends BaseEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private ProductType productType;
 
     @Column(nullable = false)
     private Long paymentAmount;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private PaymentCycle paymentCycle;
 
     @Column(nullable = false)

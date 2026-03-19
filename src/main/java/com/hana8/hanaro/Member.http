@@ -1,49 +1,64 @@
-@baseUrl=http://localhost:8080/api/members
+@baseUrl = http://localhost:8080/api/members
+@auth_token = 여기에_발급받은_JWT_토큰_넣기
 
-### member list
-GET {{baseUrl}}/
+### 1. 전체 회원 목록 조회
+GET {{baseUrl}}
+Authorization: Bearer {{auth_token}}
 
-### member search - active true
+### 2. 회원 검색 - 활성 상태 true
 GET {{baseUrl}}/search?isActive=true
+Authorization: Bearer {{auth_token}}
 
-### member search - active false
+### 3. 회원 검색 - 활성 상태 false
 GET {{baseUrl}}/search?isActive=false
+Authorization: Bearer {{auth_token}}
 
-### member search - nickname
+### 4. 회원 검색 - 닉네임
 GET {{baseUrl}}/search?nickname=test
+Authorization: Bearer {{auth_token}}
 
-### member search - email
+### 5. 회원 검색 - 이메일
 GET {{baseUrl}}/search?email=hana
+Authorization: Bearer {{auth_token}}
 
-### member search - nickname + active
+### 6. 회원 검색 - 복합 조건
 GET {{baseUrl}}/search?nickname=test&isActive=true
+Authorization: Bearer {{auth_token}}
 
-### member-regist
+### 7. 회원 검색 - 최근 가입 7일
+GET {{baseUrl}}/search?days=7
+Authorization: Bearer {{auth_token}}
+
+### 8. 회원 등록
 POST {{baseUrl}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
   "nickname": "guest",
   "email": "guest@email.com",
-  "password": "xxxxxxxx",
+  "password": "password123",
   "isActive": true,
   "roles": ["ROLE_USER"]
 }
 
-### member-info
+### 9. 회원 상세 조회
 GET {{baseUrl}}/1
+Authorization: Bearer {{auth_token}}
 
-### member-update
+### 10. 회원 수정
 PUT {{baseUrl}}/1
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
   "email": "guest_new@email.com",
-  "password": "newpassword",
+  "password": "newpassword123",
   "nickname": "guestxx",
   "isActive": false,
   "roles": ["ROLE_USER"]
 }
 
-### withdraw member
+### 11. 회원 삭제
 DELETE {{baseUrl}}/1
+Authorization: Bearer {{auth_token}}

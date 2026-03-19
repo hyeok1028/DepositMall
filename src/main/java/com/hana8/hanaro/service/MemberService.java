@@ -28,30 +28,7 @@ public class MemberService {
     }
 
     public List<MemberResponse> searchMembers(MemberSearchRequest searchDTO) {
-        List<Member> members;
-
-        if (searchDTO.getNickname() != null && !searchDTO.getNickname().isBlank()
-                && searchDTO.getIsActive() != null) {
-            members = repository.findByNicknameContainingAndIsActive(
-                    searchDTO.getNickname(),
-                    searchDTO.getIsActive()
-            );
-        } else if (searchDTO.getEmail() != null && !searchDTO.getEmail().isBlank()
-                && searchDTO.getIsActive() != null) {
-            members = repository.findByEmailContainingAndIsActive(
-                    searchDTO.getEmail(),
-                    searchDTO.getIsActive()
-            );
-        } else if (searchDTO.getNickname() != null && !searchDTO.getNickname().isBlank()) {
-            members = repository.findByNicknameContaining(searchDTO.getNickname());
-        } else if (searchDTO.getEmail() != null && !searchDTO.getEmail().isBlank()) {
-            members = repository.findByEmailContaining(searchDTO.getEmail());
-        } else if (searchDTO.getIsActive() != null) {
-            members = repository.findByIsActive(searchDTO.getIsActive());
-        } else {
-            members = repository.findAll();
-        }
-
+        List<Member> members = repository.searchMembers(searchDTO);
         return mapper.toResponseList(members);
     }
 

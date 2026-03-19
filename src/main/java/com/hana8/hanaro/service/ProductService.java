@@ -17,7 +17,11 @@ public class ProductService {
     private final ProductRepository repository;
     private final ProductMapper mapper;
 
-    public List<ProductResponse> getProducts(ProductSearchRequest dto) {
+    public List<ProductResponse> getProducts() {
+        return mapper.toResponseList(repository.findByIsActive(true));
+    }
+
+    public List<ProductResponse> searchProducts(ProductSearchRequest dto) {
         List<Product> products;
 
         if (dto.getName() != null && !dto.getName().isBlank() && dto.getIsActive() != null) {

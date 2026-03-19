@@ -1,0 +1,46 @@
+@host = http://localhost:8080
+
+### 1. 회원 가입 - 성공
+POST {{host}}/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user1@test.com",
+  "password": "password123",
+  "nickname": "하나유저1"
+}
+
+### 2. 회원 가입 - 실패(중복 이메일)
+POST {{host}}/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user1@test.com",
+  "password": "password123",
+  "nickname": "중복유저"
+}
+
+### 3. 로그인 - 성공
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@test.com",
+  "password": "password123"
+}
+
+> {% client.global.set("auth_token", response.body.data.accessToken); %}
+
+### 4. 로그인 - 실패(잘못된 비밀번호)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@test.com",
+  "password": "wrong_password"
+}
+
+### 5. 내 정보 조회
+GET {{host}}/api/auth/me
+Authorization: Bearer {{auth_token}}

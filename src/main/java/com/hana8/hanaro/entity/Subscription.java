@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,42 +32,50 @@ public class Subscription extends BaseEntity {
     @JoinColumn(name = "withdraw_account_id", nullable = false)
     private Account withdrawAccount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_account_id", nullable = false)
     private Account subscriptionAccount;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private SubscriptionStatus status;
 
-    @Column(nullable = false)
     private LocalDate startedAt;
 
-    @Column(nullable = false)
     private LocalDate maturityDate;
 
     @Column(nullable = false)
     private Long principalAmount;
 
-    @Column(nullable = false)
-    private Long accumulatedInterest;
+    @Builder.Default
+    private Long accumulatedInterest = 0L;
 
-    @Column(nullable = false)
-    private Long totalPaidAmount;
+    @Builder.Default
+    private Long totalPaidAmount = 0L;
 
-    @Column(nullable = false)
     private Long expectedMaturityAmount;
 
     private LocalDate nextPaymentDate;
 
-    public void terminate(long accumulatedInterest) {
+    @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<PaymentHistory> paymentHistories = new ArrayList<>();
+
+    public void terminate(Long accumulatedInterest) {
         this.status = SubscriptionStatus.TERMINATED;
         this.accumulatedInterest = accumulatedInterest;
     }
 
-    public void mature(long accumulatedInterest, long expectedMaturityAmount) {
+    public void mature(Long accumulatedInterest) {
         this.status = SubscriptionStatus.MATURED;
         this.accumulatedInterest = accumulatedInterest;
-        this.expectedMaturityAmount = expectedMaturityAmount;
+    }
+
+    public void updatePaidAmount(Long amount) {
+        this.totalPaidAmount += amount;
+    }
+
+    public void updateNextPaymentDate(LocalDate nextPaymentDate) {
+        this.nextPaymentDate = nextPaymentDate;
     }
 }

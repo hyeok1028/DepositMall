@@ -16,6 +16,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String[] EXCLUDE_PATTERNS = {
             "/*.html",
             "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
             "/hana8/api-docs/**"
     };
 

@@ -27,6 +27,10 @@ public class AccountService {
         return mapper.toResponseList(repository.findAll());
     }
 
+    public List<AccountResponse> getAccountsByMemberId(Long memberId) {
+        return mapper.toResponseList(repository.findByMemberId(memberId));
+    }
+
     public AccountResponse getAccount(Long id) {
         Account account = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Account #%d is not found!".formatted(id)));
